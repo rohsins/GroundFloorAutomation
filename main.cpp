@@ -11,14 +11,14 @@
 #include <avr/io.h>
 #include <util/delay.h>
 #include <avr/interrupt.h>
-//#include <string.h>
+#include <string.h>
 //#include "LCDheader(rohsins).h"
 
 volatile uint8_t time = 0;
 
 ISR(TIMER1_OVF_vect) {
 	time++;
-	if (time >= 204) {
+	if (time >= 10) {
 		time = 0;
 		WDTCR = (1 << WDE);
 		while (1);
@@ -27,7 +27,7 @@ ISR(TIMER1_OVF_vect) {
 
 void OpenDoor(void) {
 	PORTC |= (1 << PD0);
-	_delay_ms(100);
+	_delay_ms(200);
 	PORTC &= ~(1 << PD0);
 }
 
@@ -105,7 +105,7 @@ int main(void)
 				//lcd(CardNumber);
 				//lcd((char *)"   ");
 			}
-			//memset(data, 0, sizeof(data));
+			memset(data, 0, sizeof(data));
 			FacilityCode = 0;
 			CardNumber = 0;
 			i = 0;
